@@ -20,7 +20,7 @@ const User = require('./models/user');
 async function _import() {
 	try {
 		const users = [
-			{username: 'admin', email: 'admin@raudi.com', password: await bcrypt.hash('123456', 10)},
+			{username: 'admin', email: 'admin@raudi.com', role: "admin", password: await bcrypt.hash('123456', 10)},
 			{username: 'accountant', email: 'accountant@raudi.com', password: await bcrypt.hash('123456', 10)},
 		]
 		const cars = [

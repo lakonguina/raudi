@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
 const Cars = () => {
-    const [message, setMessage] = useState('Loading...');
-	const [cars, setcars] = useState([]);
+    const [cars, setCars] = useState([]);
 
     useEffect(() => {
-        const fetchProtectedData = async () => {
+        const fetchCars = async () => {
             try {
                 const token = localStorage.getItem('token'); // Get the token from localStorage
                 const response = await axios.get('http://localhost:3000/cars', {
@@ -14,31 +13,39 @@ const Cars = () => {
                         Authorization: `${token}` // Include the token in the Authorization header
                     }
                 });
-				setcars(response.data.car);
-				console.log(response.data);
+                setCars(response.data.car);
             } catch (error) {
-                if (error.response && error.response.status === 403) {
-                    setMessage('Forbidden: You do not have access to this resource.');
-                } else {
-                    setMessage('An error occurred: ' + error.message);
-                }
+                console.log(error);
             }
         };
-        fetchProtectedData();
+        fetchCars();
     }, []);
 
     return (
         <div>
-            <h2>Liste des voitures</h2>
-            {cars?.length > 0 && (
-                <ul>
-                    {cars.map((car) => (
-                        <li key={car.id}>
-                            {car.name} - ${car.price}
-                        </li>
-                    ))}
-                </ul>
-            )}
+            <div className="container mt-5">
+                <div className="row">
+                    {cars?.length > 0 && (
+                        cars.map((car) => (
+                            <div className="col-md-4 mb-4" key={car.id}>
+                                <div className="card">
+                                    <div className="card-body">
+                                        <h5 className="card-title">{car.name}</h5>
+                                        <p className="card-text">
+                                            Prix: ${car.price.toFixed(2)}<br />
+                                            Carburant: {car.gas}<br />
+                                            Portes: {car.doors}<br />
+                                            Places: {car.places}<br />
+                                            Hauteur: {car.height}m<br />
+                                            Longueur: {car.length}m
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+            </div>
         </div>
     );
 };

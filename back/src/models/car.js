@@ -53,6 +53,40 @@ const Car = sequelize.define('cars', {
 
 
 /**
+ * Represents a car options model in the database.
+ * 
+ * @typedef {Object} CarOptions
+ * @property {number} id - The unique identifier for the car option, auto-incremented.
+ * @property {number} idCar - The ID of the car associated with this car option.
+ * @property {string} name - The name of the car option.
+ * @property {number} price - The price of the car option.
+ */
+const CarOptions = sequelize.define('car_options', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+	idCar: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		references: {
+			model: 'cars',
+			key: 'id',
+		},
+	},
+	name: {
+		type: DataTypes.STRING,
+		allowNull: false
+	},
+	price: {
+		type: DataTypes.FLOAT,
+		allowNull: false
+	},
+});
+
+
+/**
  * Represents a payment model in the database.
  * 
  * @typedef {Object} Payment
@@ -86,23 +120,44 @@ const Payment = sequelize.define('payments', {
             key: 'id',
         },
     },
-    amount: {
-        type: DataTypes.FLOAT,
-        allowNull: false,
-    },
-	automatic: {
-		type: DataTypes.BOOLEAN,
-		allowNull: false
-	},
-	airConditioning: {
-		type: DataTypes.BOOLEAN,
-		allowNull: false
-	},
     date: {
         type: DataTypes.DATE,
         allowNull: false,
         defaultValue: DataTypes.NOW,
     },
+});
+
+
+/**
+ * Represents a payment options model in the database.
+ * 
+ * @typedef {Object} PaymentOptions
+ * @property {number} id - The unique identifier for the payment option, auto-incremented.
+ * @property {number} idCarOptions - The ID of the car option associated with the payment option.
+ * @property {number} idPayment - The ID of the payment associated with this payment option.
+ */
+const PaymentOptions = sequelize.define('payments_options', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+	idCarOptions: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		references: {
+			model: 'cars_options',
+			key: 'id',
+		},
+	},
+	idPayment: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		references: {
+			model: 'payments',
+			key: 'id',
+		},
+	},
 });
 
 
