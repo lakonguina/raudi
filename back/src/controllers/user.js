@@ -1,9 +1,19 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+
 const JWT_SECRET = require('../config');
 const User = require('../models/user');
 
 
+/**
+ * Registers a new user.
+ * 
+ * @async
+ * @function register
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Returns a JSON response with status and message.
+ */
 async function register(req, res) {
 	const { username, email, password } = req.body;
 	try {
@@ -30,6 +40,15 @@ async function register(req, res) {
 };
 
 
+/**
+ * Logs in a user and provides a JSON Web Token (JWT).
+ * 
+ * @async
+ * @function login
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Returns a JSON response with a token or an error message.
+ */
 async function login(req, res) {
 	const { email, password } = req.body;
 	try {
@@ -50,6 +69,15 @@ async function login(req, res) {
 }
 
 
+/**
+ * Retrieves information about the logged-in user.
+ * 
+ * @async
+ * @function info
+ * @param {Object} req - The request object. The request should contain the authenticated user's information.
+ * @param {Object} res - The response object.
+ * @returns {Promise<void>} Returns a JSON response with the user information excluding the password.
+ */
 async function info(req, res) {
 	const user = await User.findOne({
 		where: { username: req.user.username},
@@ -60,4 +88,3 @@ async function info(req, res) {
 
 
 module.exports = {register, login, info};
-

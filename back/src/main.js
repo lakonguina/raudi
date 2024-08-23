@@ -20,4 +20,4 @@ app.get('/cars', cars);
 app.post('/create/car', isAdmin, createCar);
 app.post('/pay/car', getToken, payCar);
 app.listen(port, () => {
-	console.log(`Serveur démarré sur http://localhost:${port}`);});
+	console.log(`Server started at http://localhost:${port}`);});
