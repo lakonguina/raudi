@@ -12,6 +12,10 @@ const Car = sequelize.define('cars', {
 		type: DataTypes.STRING,
 		allowNull: false
 	},
+	price: {
+		type: DataTypes.FLOAT,
+		allowNull: false
+	},
 	gas: {
 		type: DataTypes.STRING,
 		allowNull: false
@@ -31,12 +35,50 @@ const Car = sequelize.define('cars', {
 	length: {
 		type: DataTypes.FLOAT,
 		allownull: false
-	},
-	metadata: {
-        type: DataTypes.JSON,
-        allowNull: true
-    }
+	}
 });
 
 
-module.exports = Car;
+const Payment = sequelize.define('payments', {
+    id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+	idCar: {
+		type: DataTypes.INTEGER,
+		allowNull: false,
+		references: {
+			model: 'cars',
+			key: 'id',
+		},
+	},
+    idUser: {
+        type: DataTypes.INTEGER,
+        allowNull: true,
+        references: {
+            model: 'users',
+            key: 'id',
+        },
+    },
+    amount: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+	automatic: {
+		type: DataTypes.BOOLEAN,
+		allowNull: false
+	},
+	airConditioning: {
+		type: DataTypes.BOOLEAN,
+		allowNull: false
+	},
+    date: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+    },
+});
+
+
+module.exports = {Car, Payment};

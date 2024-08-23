@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 
-const authenticate = require('./middlewares/authenticate');
+const {authenticate, isAdmin, getToken} = require('./middlewares/authenticate');
 
 const {register, login, info} = require('./controllers/user');
-const {cars, createCar} = require('./controllers/car');
+const {cars, createCar, payCar} = require('./controllers/car');
 
 
 const app = express();
@@ -18,5 +18,6 @@ app.post('/login', login);
 app.get('/info', authenticate, info);
 app.get('/cars', cars);
 app.post('/create/car', isAdmin, createCar);
+app.post('/pay/car', getToken, payCar);
 app.listen(port, () => {
 	console.log(`Serveur démarré sur http://localhost:${port}`);});
