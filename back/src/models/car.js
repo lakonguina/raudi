@@ -32,6 +32,10 @@ const Car = sequelize.define('cars', {
 		type: DataTypes.FLOAT,
 		allownull: false
 	},
+	metadata: {
+        type: DataTypes.JSON,
+        allowNull: true
+    }
 });
 
 

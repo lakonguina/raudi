@@ -24,6 +24,7 @@ async function register(req, res) {
 			message: 'Utilisateur crée.',
 			user: user });
 	} catch (error) {
+		console.log(error);
 		return res.status(500).json({ error: error });
 	}
 };
@@ -49,4 +50,14 @@ async function login(req, res) {
 }
 
 
-module.exports = {register, login};
+async function info(req, res) {
+	const user = await User.findOne({
+		where: { username: req.user.username},
+		attributes: { exclude: ['password'] }
+	})
+	return res.json({user: user});
+}
+
+
+module.exports = {register, login, info};
+
